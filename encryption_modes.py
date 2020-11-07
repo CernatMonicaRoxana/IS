@@ -77,6 +77,7 @@ class OFB:
 # print("[ECB] Encrypted: {}".format(ecb_encrypted))
 # print("[ECB]Decrypted: {}".format(ecb.decrypt(ecb_encrypted)))
 
+
 ofb_enc, ofb_dec = OFB(ofb_key, init_vect), OFB(ofb_key, init_vect)
 ofb_plaintext = input("Enter a text to encrypt with AES in OFB mode: ")
 ofb_encrypted = ofb_enc.encrypt(ofb_plaintext)
