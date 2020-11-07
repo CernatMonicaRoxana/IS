@@ -48,26 +48,37 @@ class OFB:
         self.pos = 0
 
     def encrypt(self, plain_text):
-        plain_text = bytes(plain_text, 'utf-8')
+        if isinstance(plain_text, str):
+            plain_text = bytes(plain_text, 'utf-8')
         cipher_text = b''
 
         for plain_byte in plain_text:
             if self.pos < 16:
-                cipher_text += bytes(self.key_stream[self.pos] ^ plain_byte)
+                cipher_text += bytes([self.key_stream[self.pos] ^ plain_byte])
                 self.pos += 1
             else:
                 self.key_stream = self.cipher.encrypt(self.key_stream)
         return cipher_text
 
+    # def decrypt(self, crypted_text):
+    #     plain_text = b''
+    #
+    #     for crypted_byte in crypted_text:
+    #         if self.pos < 16:
+    #             plain_text += bytes(self.key_stream[self.pos] ^ crypted_byte)
+    #             self.pos += 1
+    #         else:
+    #             self.key_stream = self.cipher.encrypt(self.key_stream)
+    #     return plain_text
 
+# ecb = ECB(ecb_key)
+# ecb_plaintext = input("Enter a text to encrypt with AES in ECB mode: ")
+# ecb_encrypted = ecb.enrypt(ecb_plaintext)
+# print("[ECB] Encrypted: {}".format(ecb_encrypted))
+# print("[ECB]Decrypted: {}".format(ecb.decrypt(ecb_encrypted)))
 
-ecb = ECB(ecb_key)
-ecb_plaintext = input("Enter a text to encrypt with AES in ECB mode: ")
-ecb_encrypted = ecb.enrypt(ecb_plaintext)
-print("[ECB] Encrypted: {}".format(ecb_encrypted))
-print("[ECB]Decrypted: {}".format(ecb.decrypt(ecb_encrypted)))
-
-ofb = OFB(ofb_key, init_vect)
+ofb_enc, ofb_dec = OFB(ofb_key, init_vect), OFB(ofb_key, init_vect)
 ofb_plaintext = input("Enter a text to encrypt with AES in OFB mode: ")
-ofb_encrypted = ofb.encrypt(ofb_plaintext)
+ofb_encrypted = ofb_enc.encrypt(ofb_plaintext)
 print("[OFB] Encrypted: {}". format(ofb_encrypted))
+print("[OFB] Decrypted: {}".format(ofb_dec.encrypt(ofb_encrypted).decode("utf-8")))
