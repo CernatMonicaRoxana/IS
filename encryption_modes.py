@@ -1,11 +1,5 @@
 from os import urandom
-
 from Crypto.Cipher import AES
-
-ecb_key = urandom(32)
-ofb_key = urandom(32)
-
-init_vect = urandom(16)
 
 
 def padding(text):
@@ -78,8 +72,8 @@ class OFB:
 # print("[ECB]Decrypted: {}".format(ecb.decrypt(ecb_encrypted)))
 
 
-ofb_enc, ofb_dec = OFB(ofb_key, init_vect), OFB(ofb_key, init_vect)
-ofb_plaintext = input("Enter a text to encrypt with AES in OFB mode: ")
-ofb_encrypted = ofb_enc.encrypt(ofb_plaintext)
-print("[OFB] Encrypted: {}". format(ofb_encrypted))
-print("[OFB] Decrypted: {}".format(ofb_dec.encrypt(ofb_encrypted).decode("utf-8")))
+# ofb_enc, ofb_dec = OFB(ofb_key, init_v), OFB(ofb_key, init_v)
+# ofb_plaintext = input("Enter a text to encrypt with AES in OFB mode: ")
+# ofb_encrypted = ofb_enc.encrypt(ofb_plaintext)
+# print("[OFB] Encrypted: {}". format(ofb_encrypted))
+# print("[OFB] Decrypted: {}".format(ofb_dec.encrypt(ofb_encrypted).decode("utf-8")))
