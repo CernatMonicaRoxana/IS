@@ -14,7 +14,7 @@ mode_ofb = encryption_modes.OFB(ofb_key, init_v)
 
 
 def encrypt_ecb_key():
-    return mode_ecb.enrypt(ecb_key)
+    return mode_ecb.encrypt(ecb_key)
 
 
 def encrypt_ofb_key():

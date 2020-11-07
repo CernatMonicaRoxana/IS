@@ -19,7 +19,7 @@ class ECB:
         self.key = key
         self.cipher = AES.new(self.key, AES.MODE_ECB)
 
-    def enrypt(self, plain_text):
+    def encrypt(self, plain_text):
         plain_text = padding(plain_text)
         plain_blocks = [plain_text[i:i + 16] for i in range(0, len(plain_text), 16)]
         encr_blocks = [self.cipher.encrypt(block) for block in plain_blocks]
