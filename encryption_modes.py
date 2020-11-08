@@ -2,16 +2,16 @@ from Crypto.Cipher import AES
 from os import urandom
 
 
-def pad(text):
+def pad(text: bytes) -> bytes:
     if len(text) % 16 == 0:
         return text
     pad_len = 16 - (len(text) % 16)
     pad_chr = b'\x00'
-    return text.encode('utf-8') + pad_len * pad_chr
+    return text + pad_len * pad_chr
 
 
-def unpad(text):
-    return text.decode('utf-8').rstrip('\x00')
+def unpad(text: bytes) -> bytes:
+    return text.rstrip(b'\x00')
 
 
 class ECB:
@@ -20,6 +20,8 @@ class ECB:
         self.cipher = AES.new(self.key, AES.MODE_ECB)
 
     def encrypt(self, plain_text):
+        if isinstance(plain_text, str):
+            plain_text = bytes(plain_text, 'utf-8')
         plain_text = pad(plain_text)
         plain_blocks = [plain_text[i:i + 16] for i in range(0, len(plain_text), 16)]
         encr_blocks = [self.cipher.encrypt(block) for block in plain_blocks]
