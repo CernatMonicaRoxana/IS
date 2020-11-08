@@ -56,6 +56,9 @@ class OFB:
                 self.key_stream = self.cipher.encrypt(self.key_stream)
         return cipher_text
 
+    def decrypt(self, ciphertext):
+        return self.encrypt(ciphertext)
+
 
 def test():
     ecb_key = urandom(32)

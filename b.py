@@ -46,7 +46,21 @@ def ecb_conv(sck, key):
 
 
 def ofb_conv(sck, key):
-    pass
+    recv_iv = so.recv_header(sck)
+    send_iv = so.recv_header(sck)
+
+    recv_cipher = em.OFB(key, recv_iv)
+    send_cipher = em.OFB(key, send_iv)
+
+    print('Waiting for message... ')
+    msg_enc = so.recv_header(sck)
+    msg = recv_cipher.decrypt(msg_enc)
+
+    print('Message:', msg.decode('utf-8'))
+
+    reply = input("Enter reply: ")
+    reply_enc = send_cipher.encrypt(reply)
+    so.send_header(sck, reply_enc)
 
 
 def main():

@@ -1,6 +1,7 @@
 import encryption_modes as em
 import socket_operations as so
 import socket
+from os import urandom
 
 PORT_KM = 3001
 PORT_B = 3003
@@ -44,7 +45,22 @@ def ecb_conv(sck, key):
 
 
 def ofb_conv(sck, key):
-    pass
+    send_iv, recv_iv = urandom(16), urandom(16)
+    send_cipher = em.OFB(key, send_iv)
+    recv_cipher = em.OFB(key, recv_iv)
+
+    so.send_header(sck, send_iv)
+    so.send_header(sck, recv_iv)
+
+    msg = input("Enter message: ")
+    msg_enc = send_cipher.encrypt(msg)
+    so.send_header(sck, msg_enc)
+
+    print('Sent message, awaiting reply...')
+
+    reply_enc = so.recv_header(sck)
+    reply = recv_cipher.decrypt(reply_enc)
+    print("Reply:", reply.decode('utf-8'))
 
 
 def start_conv(mode, key):
