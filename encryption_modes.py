@@ -57,7 +57,7 @@ class OFB:
         return cipher_text
 
     def decrypt(self, ciphertext):
-        return self.encrypt(iphertext)
+        return self.encrypt(ciphertext)
 
 
 def test():
